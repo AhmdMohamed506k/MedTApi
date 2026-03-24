@@ -1,4 +1,6 @@
 
+import 'dotenv/config'
+
 import express from 'express';
 import ConnectionDB from './DB/ConectionDB.js';
 import { GlobalErrorHandler } from './src/Middelwars/ErrorHandler.js';
