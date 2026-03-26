@@ -12,7 +12,11 @@ const port = 3000;
 
 app.use(express.json())
 
-
+ConnectionDB().then(() => {
+    console.log("Database connected successfully");
+}).catch((err) => {
+    console.error("Database connection failed:", err);
+});
 
 
 
@@ -23,7 +27,7 @@ app.use("/",TermRouter)
 
 
 
-ConnectionDB()
+
 app.use(GlobalErrorHandler)
 
 
