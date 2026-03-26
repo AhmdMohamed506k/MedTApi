@@ -6,9 +6,10 @@
 import TermModel from "../../DB/Models/MedicalTerm.model.js";
 import TermDetailsModel from "../../DB/Models/Details.model.js";
 import { asyncHandler } from "../Middelwars/ErrorHandler.js";
+import ConnectionDB from "../../DB/ConectionDB.js";
 
 export const addMedicalTerm = asyncHandler(async (req, res, next) => {
-
+    await ConnectionDB();
 
     const { EnglishTerm,ArabicTerm,EnglishSynonym ,Pronnucation,Specialization, EnglishDefinition ,ArabicDefinition,AI_Explanation,ExampleSentence ,Definition3dImageUrl } = req.body;
 
@@ -33,6 +34,7 @@ export const addMedicalTerm = asyncHandler(async (req, res, next) => {
 });
 
 export const getTermBySearch = asyncHandler(async (req, res, next) => {
+    await ConnectionDB();
     const { searchQuery } = req.params; 
 
    
@@ -62,7 +64,7 @@ export const getTermBySearch = asyncHandler(async (req, res, next) => {
 });
 
 export const getAllTerms = asyncHandler(async (req, res, next) => {
-   
+    await ConnectionDB();
     const  AllTerms= await TermModel.find().select('EnglishTerm ArabicTerm EnglishSynonym Pronnucation Specialization').populate("details");
 
 
@@ -75,7 +77,7 @@ export const getAllTerms = asyncHandler(async (req, res, next) => {
 });
 
 export const getSpecificTerm = asyncHandler(async (req, res, next) => {
-    
+    await ConnectionDB();
     const { _id } = req.params;
 
  
@@ -97,7 +99,7 @@ export const getSpecificTerm = asyncHandler(async (req, res, next) => {
 });
 
 export const updateMedicalTerm = asyncHandler(async (req, res, next) => {
-
+      await ConnectionDB();
     const { id } = req.params;
   
     const {  EnglishTerm,ArabicTerm,EnglishSynonym ,Pronnucation,Specialization, EnglishDefinition ,ArabicDefinition,AI_Explanation,ExampleSentence ,Definition3dImageUrl  } = req.body;
@@ -138,7 +140,7 @@ export const updateMedicalTerm = asyncHandler(async (req, res, next) => {
 });
 
 export const DeleteSpecificTerm = asyncHandler(async (req, res, next) => {
-    
+    await ConnectionDB();
     const { _id } = req.body;
 
  
