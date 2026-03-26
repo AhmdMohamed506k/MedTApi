@@ -5,12 +5,11 @@ import { GlobalErrorHandler } from './src/Middelwars/ErrorHandler.js';
 import TermRouter from './src/Modules/Term.routes.js';
 
 const app = express();
-const port = process.env.PORT || 3000; // تأكد من استخدام البورت الديناميكي لـ Vercel
+const port = process.env.PORT || 3000; 
 
 app.use(express.json());
 
-// تشغيل الاتصال بقاعدة البيانات مرة واحدة عند بدء التطبيق
-// وإضافة catch للأمان
+
 ConnectionDB().then(() => {
     console.log("Database connected successfully");
 }).catch((err) => {
