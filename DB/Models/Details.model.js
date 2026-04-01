@@ -4,16 +4,15 @@ const TermDetailsSchema = new Schema({
    TermId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Term",
-    required: true,
     unique: true,
   },
   EnglishDefinition: {
     type: String,
-    required: true,
+    
   },
   ArabicDefinition: {
     type: String,
-    required: true,
+    
   },
   AI_Explanation: {
     type: String,
