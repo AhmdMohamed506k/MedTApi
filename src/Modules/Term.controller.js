@@ -39,19 +39,19 @@ export const getTermBySearch = asyncHandler(async (req, res, next) => {
     await ConnectionDB();
     const { searchQuery } = req.params; 
 
-   
+  
+    const searchRegex = new RegExp(searchQuery, 'i'); 
+
     const DefinitionData = await TermModel.find({
-      $or: [
+        $or: [
             { EnglishTerm: searchRegex }, 
             { ArabicTerm: searchRegex },
             { Specialization: searchRegex } 
         ]
-    }).populate('details');
+    }).populate('details').limit(10); 
 
-
-
-
-    if (!DefinitionData) {
+  
+    if (!DefinitionData || DefinitionData.length === 0) {
         return res.status(404).json({ 
             success: false, 
             message: "sorry Term not found" 
@@ -60,7 +60,7 @@ export const getTermBySearch = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        Count:DefinitionData.length,
+        Count: DefinitionData.length,
         data: DefinitionData
     });
 });
