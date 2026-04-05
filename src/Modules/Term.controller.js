@@ -41,10 +41,10 @@ export const getTermBySearch = asyncHandler(async (req, res, next) => {
 
    
     const DefinitionData = await TermModel.find({
-        $or: [
-            { EnglishTerm: new RegExp(`^${searchQuery}$`, 'i') }, 
-            { ArabicTerm: new RegExp(`^${searchQuery}$`, 'i') } ,
-            {Specialization : new RegExp(`^${searchQuery}$`, 'i')} 
+      $or: [
+            { EnglishTerm: searchRegex }, 
+            { ArabicTerm: searchRegex },
+            { Specialization: searchRegex } 
         ]
     }).populate('details');
 
