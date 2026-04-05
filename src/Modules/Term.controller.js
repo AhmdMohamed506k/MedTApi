@@ -9,12 +9,13 @@ import { asyncHandler } from "../Middelwars/ErrorHandler.js";
 import ConnectionDB from "../../DB/ConectionDB.js";
 
 export const addMedicalTerm = asyncHandler(async (req, res, next) => {
-    await ConnectionDB();
 
-    const { EnglishTerm,ArabicTerm,EnglishSynonym ,Pronnucation,Specialization, EnglishDefinition ,ArabicDefinition,AI_Explanation,ExampleSentence ,Definition3dImageUrl } = req.body;
+    const { EnglishTerm,ArabicTerm,EnglishSynonym ,Pronnucation,Specialization, EnglishDefinition ,ArabicDefinition,AI_Explanation, AI_Accuracy,ExampleSentence ,Definition3dImageUrl } = req.body;
 
      
-
+     
+    
+    
 
 
     const newTerm = await TermModel.create({ EnglishTerm, ArabicTerm, EnglishSynonym ,Pronnucation ,Specialization});
@@ -23,6 +24,7 @@ export const addMedicalTerm = asyncHandler(async (req, res, next) => {
         TermId: newTerm._id,
         EnglishDefinition,
         ArabicDefinition,
+        AI_Accuracy,
         AI_Explanation,
         Examples: { ExampleSentence },
         Definition3dImageUrl
@@ -102,7 +104,7 @@ export const updateMedicalTerm = asyncHandler(async (req, res, next) => {
       await ConnectionDB();
     const { id } = req.params;
   
-    const {  EnglishTerm,ArabicTerm,EnglishSynonym ,Pronnucation,Specialization, EnglishDefinition ,ArabicDefinition,AI_Explanation,ExampleSentence ,Definition3dImageUrl  } = req.body;
+    const {  EnglishTerm,ArabicTerm,EnglishSynonym ,Pronnucation,Specialization, EnglishDefinition ,ArabicDefinition,AI_Explanation,AI_Accuracy,ExampleSentence ,Definition3dImageUrl  } = req.body;
 
     
     const UpdatedDefinition = await TermModel.findByIdAndUpdate(id, {  EnglishTerm,  ArabicTerm, EnglishSynonym, Pronnucation ,Specialization},
@@ -118,6 +120,7 @@ export const updateMedicalTerm = asyncHandler(async (req, res, next) => {
             EnglishDefinition,
             ArabicDefinition,
             AI_Explanation,
+            AI_Accuracy,
             Definition3dImageUrl,
             Examples:{
                 ExampleSentence,

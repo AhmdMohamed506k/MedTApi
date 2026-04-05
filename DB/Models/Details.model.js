@@ -17,6 +17,10 @@ const TermDetailsSchema = new Schema({
   AI_Explanation: {
     type: String,
   },
+  AI_Accuracy: {
+    type: Number,
+   
+  },
   Examples: [{
     ExampleSentence: String,
   },
