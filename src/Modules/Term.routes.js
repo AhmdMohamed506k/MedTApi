@@ -16,4 +16,7 @@ TermRouter.put("/MedTApi/api/v1/updateTerm/:id",Tr.updateMedicalTerm);
 
 TermRouter.delete("/MedTApi/api/v1/DeleteTerm",Tr.DeleteSpecificTerm);
 
+TermRouter.delete('/MedTApi/api/v1/DeleteTermsByCategoryName/:categoryName', Tr.DeleteTermsByCategory);
+
+
 export default TermRouter;

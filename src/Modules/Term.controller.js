@@ -9,7 +9,7 @@ import { asyncHandler } from "../Middelwars/ErrorHandler.js";
 import ConnectionDB from "../../DB/ConectionDB.js";
 
 export const addMedicalTerm = asyncHandler(async (req, res, next) => {
-
+   await ConnectionDB();
     const { EnglishTerm,ArabicTerm,EnglishSynonym ,Pronnucation,Specialization, EnglishDefinition ,ArabicDefinition,AI_Explanation, AI_Accuracy,ExampleSentence ,Definition3dImageUrl } = req.body;
 
      
@@ -163,3 +163,31 @@ export const DeleteSpecificTerm = asyncHandler(async (req, res, next) => {
    
     res.status(200).json({ success: true, Message:"Successfully Deleted"});
 });
+
+// Controller function to delete terms and their details by category
+export const DeleteTermsByCategory = asyncHandler(async(req,res,next)=>{
+     
+    
+    await ConnectionDB();
+
+    const { categoryName } = req.params;
+
+       
+        const terms = await TermModel.find({ Specialization: categoryName }).select('_id');
+        if (terms.length === 0) {return res.status(404).json({ message: "No terms found in this category." });}
+
+   
+        const termIds = terms.map(term => term._id);
+
+  
+        await TermDetailsModel.deleteMany({ termId: { $in: termIds } });
+
+       
+        const result = await TermModel.deleteMany({ _id: { $in: termIds } });
+
+        res.status(200).json({ 
+            message: `Successfully deleted category: ${categoryName}`,
+            deletedTermsCount: result.deletedCount,
+            deletedDetailsCount: termIds.length 
+        });
+})
