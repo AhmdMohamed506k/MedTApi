@@ -10,6 +10,8 @@ TermRouter.get("/MedTApi/api/v1/search/:searchQuery", Tr.getTermBySearch);
 
 TermRouter.get("/MedTApi/api/v1/all",Tr.getAllTerms);
 
+TermRouter.get('/MedTApi/api/v1/categories', Tr.getAllCategories);
+
 TermRouter.get("/MedTApi/api/v1/GetTerm/:_id",Tr.getSpecificTerm);
 
 TermRouter.put("/MedTApi/api/v1/updateTerm/:id",Tr.updateMedicalTerm);

@@ -78,6 +78,22 @@ export const getAllTerms = asyncHandler(async (req, res, next) => {
     });
 });
 
+
+export const getAllCategories = asyncHandler(async(req,res,next)=>{
+
+        const categories = await TermModel.distinct("Specialization");
+
+        if (!categories || categories.length === 0) {
+            return res.status(404).json({ message: "No categories found." });
+        }
+
+        res.status(200).json({
+            success: true,
+            count: categories.length,
+            categories: categories 
+        });
+})
+
 export const getSpecificTerm = asyncHandler(async (req, res, next) => {
     await ConnectionDB();
     const { _id } = req.params;
@@ -164,7 +180,6 @@ export const DeleteSpecificTerm = asyncHandler(async (req, res, next) => {
     res.status(200).json({ success: true, Message:"Successfully Deleted"});
 });
 
-// Controller function to delete terms and their details by category
 export const DeleteTermsByCategory = asyncHandler(async(req,res,next)=>{
      
     
