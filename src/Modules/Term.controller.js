@@ -9,30 +9,42 @@ import { asyncHandler } from "../Middelwars/ErrorHandler.js";
 import ConnectionDB from "../../DB/ConectionDB.js";
 
 export const addMedicalTerm = asyncHandler(async (req, res, next) => {
-   await ConnectionDB();
-    const { EnglishTerm,ArabicTerm,EnglishSynonym ,Pronnucation,Specialization, EnglishDefinition ,ArabicDefinition,AI_Explanation, AI_Accuracy,ExampleSentence ,Definition3dImageUrl } = req.body;
 
-     
-     
-    
-    
+   const { 
+       EnglishTerm, ArabicTerm, EnglishSynonym, Pronnucation, Specialization, 
+       EnglishDefinition, ArabicDefinition, AI_Explanation, AI_Accuracy, 
+       ExampleSentence, Definition3dImageUrl 
+   } = req.body;
+
+   if (!EnglishTerm || !ArabicTerm) {
+       return res.status(400).json({ success: false, message: "English and Arabic terms are required" });
+   }
+
+   
+   const newTerm = await TermModel.create({ 
+       EnglishTerm, 
+       ArabicTerm, 
+       EnglishSynonym, 
+       Pronnucation, 
+       Specialization 
+   });
 
 
-    const newTerm = await TermModel.create({ EnglishTerm, ArabicTerm, EnglishSynonym ,Pronnucation ,Specialization});
+   await TermDetailsModel.create({
+       TermId: newTerm._id, 
+       EnglishDefinition,
+       ArabicDefinition,
+       AI_Accuracy,
+       AI_Explanation,
+       Examples: { ExampleSentence },
+       Definition3dImageUrl
+   });
 
-    await TermDetailsModel.create({
-        TermId: newTerm._id,
-        EnglishDefinition,
-        ArabicDefinition,
-        AI_Accuracy,
-        AI_Explanation,
-        Examples: { ExampleSentence },
-        Definition3dImageUrl
-    });
-       
-        
-
-    res.status(201).json({ success: true, message: `Term and Details added Successfully your Term Id is ${newTerm._id}`});
+   res.status(201).json({ 
+       success: true, 
+       message: `Term and Details added Successfully!`,
+       termId: newTerm._id
+   });
 });
 
 export const getTermBySearch = asyncHandler(async (req, res, next) => {
